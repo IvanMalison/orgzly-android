@@ -53,12 +53,10 @@ public class ReposActivity extends CommonActivity
 
     private static final int DIALOG_CREATE_DIRECTORY_ID = 1;
     private static final String DIALOG_CREATE_DIRECTORY_ARG_DIRECTORY = "directory";
-    private static final String BROWSER_RESULT_HANDLER_ID = "browserResultHandlerId";
 
     private Shelf mShelf;
 
     private DropboxClient mDropboxClient;
-    private int browserResultHandlerId;
     private BrowserResultHandler browserResultHandler;
 
     @Override
@@ -84,14 +82,11 @@ public class ReposActivity extends CommonActivity
                     .beginTransaction()
                     .replace(R.id.activity_repos_frame, fragment, ReposFragment.FRAGMENT_TAG)
                     .commit();
-        } else {
-            browserResultHandlerId = savedInstanceState.getInt(BROWSER_RESULT_HANDLER_ID, 0);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {
-        savedInstanceState.putInt(BROWSER_RESULT_HANDLER_ID, browserResultHandlerId);
         super.onSaveInstanceState(savedInstanceState);
     }
 
