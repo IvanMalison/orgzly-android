@@ -76,4 +76,9 @@ public class MockRepo implements Repo {
     @Override
     public void delete(Uri uri) throws IOException {
     }
+
+    @Override
+    public TwoWaySync getSync() {
+        return null;
+    }
 }
