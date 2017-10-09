@@ -193,14 +193,11 @@ public class ReposActivity extends CommonActivity
 
         if (repo instanceof DropboxRepo || repo instanceof MockRepo) {  // TODO: Remove Mock from here
             displayRepoFragment(DropboxRepoFragment.getInstance(id), DropboxRepoFragment.FRAGMENT_TAG);
-
         } else if (repo instanceof DirectoryRepo || repo instanceof ContentRepo) {
             displayRepoFragment(DirectoryRepoFragment.getInstance(id), DirectoryRepoFragment.FRAGMENT_TAG);
-
         } else if (repo instanceof GitRepo) {
             displayRepoFragment(GitRepoFragment.getInstance(id), GitRepoFragment.FRAGMENT_TAG);
-        }
-        else {
+        } else {
             showSimpleSnackbarLong(R.string.message_unsupported_repository_type);
         }
     }
@@ -242,6 +239,7 @@ public class ReposActivity extends CommonActivity
             }
         }
     }
+
     @Override
     public boolean isDropboxLinked() {
         return mDropboxClient.isLinked();
