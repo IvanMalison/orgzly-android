@@ -1,5 +1,6 @@
 package com.orgzly.android.ui.fragments.browser;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.TypedArray;
 import android.os.Bundle;
@@ -49,14 +50,36 @@ public class FileBrowserFragment extends BrowserFragment {
         }
     };
 
-    public static FileBrowserFragment getInstance(String entry) {
+    protected static final String ARG_ALLOW_FILE_SELECTION = "allow_file_selection";
+
+    private boolean allowFileSelection;
+
+    public static FileBrowserFragment getInstance(String entry, boolean allowFileSelection) {
         FileBrowserFragment fragment =  new FileBrowserFragment();
 
         if (entry != null) {
             fragment.init(entry);
         }
 
+        Bundle args = fragment.getArguments();
+        if (args == null) {
+            args = new Bundle();
+        }
+        args.putBoolean(ARG_ALLOW_FILE_SELECTION, allowFileSelection);
+        fragment.setArguments(args);
+
         return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        Bundle arguments = getArguments();
+        if (arguments == null) {
+            arguments = new Bundle();
+        }
+        allowFileSelection = arguments.getBoolean(ARG_ALLOW_FILE_SELECTION, false);
     }
 
     /**
@@ -110,7 +133,7 @@ public class FileBrowserFragment extends BrowserFragment {
 
         /*
          * If we can access secondary storage and it exists, create a shortcut for it.
-         * TODO: Support more then one?
+         * TODO: Support more than one?
          */
         if (LocalStorage.isSecondaryStorageAccessible(getContext())) {
             final Button secondaryStorageButton = createShortcutButton(R.string.secondary_storage);
@@ -174,6 +197,8 @@ public class FileBrowserFragment extends BrowserFragment {
                 if (sel.isDirectory()) {
                     mNextItem = sel.getAbsolutePath();
                     tryLoadFileListFromNext(false);
+                } else if (allowFileSelection) {
+                    mListener.onBrowserUse(sel.getAbsolutePath());
                 }
             }
 

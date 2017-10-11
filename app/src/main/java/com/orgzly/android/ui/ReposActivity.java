@@ -321,13 +321,15 @@ public class ReposActivity extends CommonActivity
     }
 
     @Override
-    public void browseDirectory(Uri uri, BrowserResultHandler handler) {
+    public void browseDirectory(Uri uri, BrowserResultHandler handler, boolean allowFileSelection) {
         browserResultHandler = handler;
         String dir = uri != null ? uri.getPath() : null;
         getSupportFragmentManager()
                 .beginTransaction()
                 .addToBackStack(null)
-                .replace(R.id.activity_repos_frame, FileBrowserFragment.getInstance(dir), FileBrowserFragment.FRAGMENT_TAG)
+                .replace(R.id.activity_repos_frame,
+                        FileBrowserFragment.getInstance(dir, allowFileSelection),
+                        FileBrowserFragment.FRAGMENT_TAG)
                 .commit();
     }
 }
